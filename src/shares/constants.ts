@@ -17,3 +17,8 @@ export const constants = {
     },
   },
 };
+
+export const env = {
+  SANDBOX: "SANDBOX",
+  PRODUCTION: "PRODUCTION"
+}

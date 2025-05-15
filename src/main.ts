@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './middlewares/exception';
+import * as dotenv from "dotenv"
+import { env } from './shares/constants';
+dotenv.config()
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +13,6 @@ async function bootstrap() {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
-  await app.listen(5000);
+  await app.listen(process.env.ENV === env.PRODUCTION ? 22 : 5000);
 }
 bootstrap();
