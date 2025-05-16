@@ -26,13 +26,13 @@ export class User {
   @Prop()
   phoneNumber: string;
 
-  @Prop({ default: "https://i.imgur.com/A4rs3bu.png" })
+  @Prop({ default: 'https://i.imgur.com/A4rs3bu.png' })
   image: string;
 
   @Prop({ default: 0 })
   score: number;
 
-  @Prop({ default: ["GUEST"] })
+  @Prop({ default: ['GUEST'] })
   positions: string[];
 
   @Prop({ default: false })
@@ -41,8 +41,14 @@ export class User {
   @Prop()
   ipAllowed: string[];
 
-  @Prop({ enum: ["Google", "Account"], default: "Account" })
-  method: "Google" | "Account";
+  @Prop({ enum: ['Google', 'Account'], default: 'Account' })
+  method: 'Google' | 'Account';
+
+  @Prop({ default: 0})
+  views: number;
+
+  @Prop({ default: 0})
+  follows: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

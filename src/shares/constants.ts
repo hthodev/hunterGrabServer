@@ -8,6 +8,15 @@ export const constants = {
       FEMALE: 'https://i.imgur.com/9ClDjnR.png',
       MALE: 'https://i.imgur.com/A4rs3bu.png',
     },
+    POSITION: {
+      GUEST: "Guest",
+      MEMBER: "Member",
+      MANAGER: "Manager",
+      ADMIN: "Admin",
+      POSTER: "Poster",
+      COLLABORATOR: "Collaborator",
+      MODERATOR: "Moderator" 
+    }
   },
 
   AUTH: {

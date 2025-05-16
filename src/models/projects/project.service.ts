@@ -5,6 +5,10 @@ import { Model } from 'mongoose';
 import { Tool, ToolDocument } from '../tools/tool.schema';
 import { Types } from 'mongoose';
 import { stringId } from 'src/shares/ultis';
+import {
+  ProjectView,
+  ProjectViewDocument,
+} from '../projectViewByTime/projectView.schema';
 
 @Injectable()
 export class ProjectService {
@@ -13,6 +17,9 @@ export class ProjectService {
   ) {}
   @InjectModel(Tool.name)
   private toolModel: Model<ToolDocument>;
+
+  @InjectModel(ProjectView.name)
+  private projectViewModel: Model<ProjectViewDocument>;
 
   async create(body): Promise<Project> {
     const createdUser = new this.projectModel({
@@ -38,5 +45,50 @@ export class ProjectService {
         (tool: ToolDocument) => stringId(tool.projectId) == project._id,
       ),
     }));
+  }
+
+  async projectViewer(type: 'date' | 'month' | 'year') {
+    let startTime;
+    let endTime;
+    const today = new Date();
+
+    const getDaysInMonth = (year: number, month: number): number => {
+      return new Date(year, month, 0).getDate();
+    };
+
+    switch (type) {
+      case 'date':
+        startTime = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}T00:00:00Z`;
+        endTime = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}T23:59:59Z`;
+        break;
+      case 'month':
+        startTime = `01-${today.getMonth() + 1}-${today.getFullYear()}T00:00:00Z`;
+        endTime = `${getDaysInMonth(today.getFullYear(), today.getMonth() + 1)}-${today.getMonth() + 1}-${today.getFullYear()}T23:59:59Z`;
+        break;
+      case 'year':
+        startTime = `01-01-${today.getFullYear()}T00:00:00Z`;
+        endTime = `31-12-${today.getFullYear()}T23:59:59Z`;
+        break;
+    }
+
+    const views = await this.projectViewModel.aggregate([
+      {
+        $match: {
+          timestamp: { $gte: startTime, $lte: endTime },
+        },
+      },
+    ]);
+
+    let viewer = 0;
+
+    console.log('views', views);
+    if (!views.length) {
+      return { viewer }
+    };
+
+    views.forEach(view => {
+      viewer += view.views
+    })
+    return { viewer }
   }
 }

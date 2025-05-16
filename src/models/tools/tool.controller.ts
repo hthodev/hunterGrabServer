@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, Query } from '@nestjs/common';
 import { ToolService } from './tool.service';
 import { responseEndpoint } from 'src/responses/endpoint';
 
@@ -14,5 +14,11 @@ export class ToolController {
   @Get("/list")
   async findAll() {
     return responseEndpoint({ data: await this.toolService.findAll() });
+  }
+
+  @Get("/views")
+  @HttpCode(200)
+  async toolViewer(@Query('type') type: 'date' | 'month' | 'year') {
+    return responseEndpoint({ data: await this.toolService.toolViewer(type)})
   }
 }

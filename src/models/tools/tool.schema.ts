@@ -7,13 +7,13 @@ export type ToolDocument = Tool & Document;
 @Schema({ timestamps: true })
 export class Tool {
   @Prop({ required: true, unique: true })
-  slug: string
-  
+  slug: string;
+
   @Prop()
   raise: string;
 
-  @Prop({ enum: ["Working", "No working"], default: "Working" })
-  toolStatus: "Working" | "No working"
+  @Prop({ enum: ['Working', 'No working'], default: 'Working' })
+  toolStatus: 'Working' | 'No working';
 
   @Prop()
   note: string;
@@ -25,16 +25,27 @@ export class Tool {
   linkTool: string;
 
   @Prop()
-  version: string
+  version: string;
 
   @Prop()
-  icon: string
+  icon: string;
 
   @Prop({ required: true })
-  language: string
+  language: string;
 
   @Prop({ type: Types.ObjectId, ref: Project.name, required: true })
-  projectId: Types.ObjectId
+  projectId: Types.ObjectId;
+
+  @Prop({
+    type: {
+      download: { type: Number, default: 0 },
+      view: { type: Number, default: 0 },
+    },
+  })
+  views: {
+    download: number;
+    view: number;
+  };
 }
 
 export const ToolSchema = SchemaFactory.createForClass(Tool);

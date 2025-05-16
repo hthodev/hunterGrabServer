@@ -21,6 +21,8 @@ import { AuthController } from './models/auth/auth.controller';
 import { AuthModule } from './models/auth/auth.module';
 import { UserController } from './models/users/user.controller';
 import { UserModule } from './models/users/user.module';
+import { ManagementModule } from './models/managements/manager.module';
+import { ManagementController } from './models/managements/manager.controller';
 @Module({
   imports: [
     JwtModule.register({
@@ -36,7 +38,8 @@ import { UserModule } from './models/users/user.module';
     DetailToolModule,
     ProjectModule,
     AuthModule,
-    UserModule
+    UserModule,
+    ManagementModule,
   ],
   controllers: [
     AppController,
@@ -44,7 +47,8 @@ import { UserModule } from './models/users/user.module';
     DetailToolController,
     ProjectController,
     AuthController,
-    UserController
+    UserController,
+    ManagementController,
   ],
   providers: [AppService],
 })
